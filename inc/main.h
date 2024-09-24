@@ -3,6 +3,7 @@
 
 #include <avr/io.h>
 #include <delay.h>
+#include "mega_usart.h"
 
 #define F_CPU 8000000UL
 
