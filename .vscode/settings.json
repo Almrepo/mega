@@ -1,0 +1,18 @@
+{
+    "AVR.reporter.arguments": [
+        "-C"
+    ],
+    "AVR.source.compiler": "/usr/bin/avr-gcc",
+    "AVR.programmer.tool": "/usr/bin/avrdude",
+    "AVR.programmer.definitions": "/etc/avrdude.conf",
+    "AVR.source.libraries": [
+        "/home/alm/avr-code/mega/inc",
+        "/usr/lib/avr/include",
+        "/usr/lib/avr/include/avr"
+    ],
+    "AVR.device.type": "atmega128a",
+    "AVR.device.frequency": 8000000,
+    "AVR.programmer.type": "jtag2",
+    "AVR.programmer.port": "/dev/ttyUSB0",
+    "AVR.programmer.rate": 9600
+}
