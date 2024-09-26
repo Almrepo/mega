@@ -1,0 +1,3 @@
+build/
+build/obj/home/alm/avr-code/mega/src/main.cpp.obj
+build/obj/home/alm/avr-code/mega/src/mega_usart.cpp.obj

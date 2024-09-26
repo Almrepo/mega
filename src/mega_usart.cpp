@@ -61,10 +61,7 @@ void MegaUSART::mega_transmit_char(char c) {
 }
 
 void MegaUSART::mega_transmit_string(const char* str) {
-    if (str == nullptr) {
-        return; // Если указатель равен nullptr, выходим из функции
-    }
-
+    
     while (*str != '\0') {
         mega_transmit_char(*str); // Передаем каждый символ
         str++; // Переходим к следующему символу
@@ -89,6 +86,34 @@ char MegaUSART::mega_receive_char() {
         default:
             return '\0';
     }
+}
+
+// Функция приема строки
+// Возвращает указатель на буфер, если он не равен NULL,
+// иначе - NULL
+// size - максимальное количество символов, которое может быть принято
+// (не учитывая символы конца строки)
+// buffer - указатель на буфер, в который будет принята строка
+// Функция может быть прервана, если будет получен символ конца строки (\n или \r)
+/////////////example////////////////////////
+//char buffer[100];
+//mega_receive_string(buffer, sizeof(buffer));
+////////////////////////////////////////////
+char* MegaUSART::mega_receive_string(char* buffer, uint8_t size) {
+    uint8_t i = 0;
+    while (i < size - 1 && mega_rx_data_is_ready()) {
+        // получаем символ
+        char c = mega_receive_char();
+        // если это символ конца строки, то выходим из цикла
+        if (c == '\n' || c == '\r') break;
+        // иначе, добавляем символ в буфер
+        buffer[i] = c;
+        i++;
+    }
+    // добавляем символ конца строки
+    buffer[i] = '\0';
+    // возвращаем указатель на буфер, если он не равен NULL
+    return buffer;
 }
 
 void MegaUSART::enable_rx_interrupt() {
@@ -126,8 +151,20 @@ void MegaUSART::disable_rx_interrupt() {
 }
 
 // Прерывание по приему данных
-ISR(USART_RX_vect) {
-    // Передаем полученный символ в обработчик
-    // Здесь можно вызвать метод onReceive() соответствующего экземпляра класса
-}
+// ISR(USART_RX_vect) {
+//     // Передаем полученный символ в обработчик
+//     // Здесь можно вызвать метод onReceive() соответствующего экземпляра класса
+// }
 
+// Проверка готовности приема данных
+// Возвращает true, если есть новый символ в регистре UDR0
+bool MegaUSART::mega_rx_data_is_ready() {
+
+    return(UCSR0A & (1 << RXC0));
+}
+void MegaUSART::clear_rx_interrupt_flag() {
+    UCSR0A &= ~(1 << RXC0);
+}
+void MegaUSART::clear_tx_interrupt_flag() {
+    UCSR0A &= ~(1 << TXC0);
+}

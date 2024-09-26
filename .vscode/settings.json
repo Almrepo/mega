@@ -12,7 +12,7 @@
     ],
     "AVR.device.type": "atmega128a",
     "AVR.device.frequency": 8000000,
-    "AVR.programmer.type": "jtag2",
+    "AVR.programmer.type": "jtag1",
     "AVR.programmer.port": "/dev/ttyUSB0",
     "AVR.programmer.rate": 9600
 }

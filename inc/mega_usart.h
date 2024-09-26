@@ -11,8 +11,12 @@ public:
     void mega_transmit_char(char c);
     void mega_transmit_string(const char* str);
     char mega_receive_char();
+    char* mega_receive_string(char* buffer, uint8_t size);
     void enable_rx_interrupt();
     void disable_rx_interrupt();
+    bool mega_rx_data_is_ready();
+    void clear_rx_interrupt_flag();
+    void clear_tx_interrupt_flag();
 
 private:
     uint8_t usartNumber;
