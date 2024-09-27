@@ -60,7 +60,7 @@ void MegaUSART::mega_transmit_char(char c) {
     }
 }
 
-void MegaUSART::mega_transmit_string(const char* str) {
+void MegaUSART::mega_transmit_string(char* str) {
     
     while (*str != '\0') {
         mega_transmit_char(*str); // Передаем каждый символ
@@ -101,7 +101,7 @@ char MegaUSART::mega_receive_char() {
 ////////////////////////////////////////////
 char* MegaUSART::mega_receive_string(char* buffer, uint8_t size) {
     uint8_t i = 0;
-    while (i < size - 1 && mega_rx_data_is_ready()) {
+    while (i < size - 1 && mega_rx_buffer_is_ready()) {
         // получаем символ
         char c = mega_receive_char();
         // если это символ конца строки, то выходим из цикла
@@ -115,7 +115,39 @@ char* MegaUSART::mega_receive_string(char* buffer, uint8_t size) {
     // возвращаем указатель на буфер, если он не равен NULL
     return buffer;
 }
+void MegaUSART::enable_tx_interrupt() {
+    switch (usartNumber) {
+        case 0:
+            UCSR0B |= (1 << TXCIE0); // Включаем прерывание по передаче
+            break;
+        case 1:
+            UCSR1B |= (1 << TXCIE1);
+            break;
+        // case 2:
+        //     UCSR2B |= (1 << TXCIE2);
+        //     break;
+        // case 3:
+        //     UCSR3B |= (1 << TXCIE3);
+            break;
+    }
+}
 
+void MegaUSART::disable_tx_interrupt() {
+    switch (usartNumber) {
+        case 0:
+            UCSR0B &= ~(1 << TXCIE0); // Отключаем прерывание по передаче
+            break;
+        case 1:
+            UCSR1B &= ~(1 << TXCIE1);
+            break;
+        // case 2:
+        //     UCSR2B &= ~(1 << TXCIE2);
+        //     break;
+        // case 3:
+        //     UCSR3B &= ~(1 << TXCIE3);
+        //     break;
+    }
+}
 void MegaUSART::enable_rx_interrupt() {
     switch (usartNumber) {
         case 0:
@@ -150,6 +182,39 @@ void MegaUSART::disable_rx_interrupt() {
     }
 }
 
+void MegaUSART::enable_tx_udre_is_empty_interrupt() {
+    switch (usartNumber) {
+        case 0:
+            UCSR0B |= (1 << UDRIE0); // Включаем прерывание по пустому регистру передачи
+            break;
+        case 1:
+            UCSR1B |= (1 << UDRIE1);
+            break;
+        // case 2:
+        //     UCSR2B |= (1 << UDRIE2);
+        //     break;
+        // case 3:
+        //     UCSR3B |= (1 << UDRIE3);
+        //     break;
+    }
+}
+
+void MegaUSART::disable_tx_udre_is_empty_interrupt() {
+    switch (usartNumber) {
+        case 0:
+            UCSR0B &= ~(1 << UDRIE0); // Отключаем прерывание по пустому регистру передачи
+            break;
+        case 1:
+            UCSR1B &= ~(1 << UDRIE1);
+            break;
+        // case 2:
+        //     UCSR2B &= ~(1 << UDRIE2);
+        //     break;
+        // case 3:
+        //     UCSR3B &= ~(1 << UDRIE3);
+        //     break;
+    }
+}
 // Прерывание по приему данных
 // ISR(USART_RX_vect) {
 //     // Передаем полученный символ в обработчик
@@ -158,13 +223,67 @@ void MegaUSART::disable_rx_interrupt() {
 
 // Проверка готовности приема данных
 // Возвращает true, если есть новый символ в регистре UDR0
-bool MegaUSART::mega_rx_data_is_ready() {
+bool MegaUSART::mega_rx_buffer_is_ready() {
+    switch (usartNumber) {
+        case 0:
+            return UCSR0A & (1 << RXC0);
+        case 1:
+            return UCSR1A & (1 << RXC1);
+        // case 2:
+        //     return UCSR2A & (1 << RXC2);
+        // case 3:
+        //     return UCSR3A & (1 << RXC3);
+        default:
+            return false;
+    }
+    }
 
-    return(UCSR0A & (1 << RXC0));
+bool MegaUSART::mega_tx_buffer_is_ready() {
+    switch (usartNumber) {
+        case 0:
+            return UCSR0A & (1 << UDRE0);
+        case 1:
+            return UCSR1A & (1 << UDRE1);
+        // case 2:
+        //     return UCSR2A & (1 << UDRE2);
+        // case 3:
+        //     return UCSR3A & (1 << UDRE3);
+        default:
+            return false;
+    }
 }
+
 void MegaUSART::clear_rx_interrupt_flag() {
-    UCSR0A &= ~(1 << RXC0);
+    switch (usartNumber) {
+        case 0:
+            UCSR0A &= ~(1 << RXC0);
+            break;
+        case 1:
+            UCSR1A &= ~(1 << RXC1);
+            break;
+        // case 2:
+        //     UCSR2A &= ~(1 << RXC2);
+        //     break;
+        // case 3:
+        //     UCSR3A &= ~(1 << RXC3);
+        //     break;
+    }
+   
 }
 void MegaUSART::clear_tx_interrupt_flag() {
-    UCSR0A &= ~(1 << TXC0);
+    switch (usartNumber) {
+        case 0:
+            UCSR0A &= ~(1 << TXC0);
+            break;
+        case 1:
+            UCSR1A &= ~(1 << TXC1);
+            break;
+        // case 2:
+        //     UCSR2A &= ~(1 << TXC2);
+        //     break;
+        // case 3:
+        //     UCSR3A &= ~(1 << TXC3);
+        //     break;
+    }
+    
 }
