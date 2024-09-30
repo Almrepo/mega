@@ -52,17 +52,17 @@ uint16_t MegaADC::mega_adc_read_result() {
   return ADC; // Возвращение значения из регистра ADC
 }
 uint16_t MegaADC::mega_adc_manual_read(uint8_t channel) {
-    select_adc_channel(channel);
+    mega_adc_select_channel(channel);
     mega_adc_start_conversion();
     return mega_adc_read_result();
 }
 uint16_t MegaADC::mega_adc_auto_read(uint8_t channel) {
-    select_adc_channel(channel);
+    mega_adc_select_channel(channel);
     enable_adc_auto_mode();
     while (!(ADCSRA & (1 << ADIF))); // Ожидание завершения преобразования
     return ADC; // Возвращаем результат преобразования
 }
-void MegaADC::select_adc_channel(uint8_t channel) {
+void MegaADC::mega_adc_select_channel(uint8_t channel) {
     ADMUX = (ADMUX & 0xF0) | (channel & 0x0F); // Устанавливаем номер канала
 }
 

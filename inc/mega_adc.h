@@ -40,7 +40,7 @@ enum ADCPrescaler {
    static volatile uint16_t adcValue; // Для хранения значения АЦП
 
 private:
-    void select_adc_channel(uint8_t channel);
+    void mega_adc_select_channel(uint8_t channel);
     // Номер канала ADC
   uint8_t _channel;
   // Напряжение опорного сигнала
