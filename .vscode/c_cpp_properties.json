@@ -22,7 +22,7 @@
                 "-ffunction-sections",
                 "-fdata-sections",
                 "-pipe",
-                "-mmcu=atmega128a",
+                "-mmcu=atmega128",
                 "-DF_CPU=8000000UL"
             ]
         }

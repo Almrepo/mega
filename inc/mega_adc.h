@@ -1,15 +1,15 @@
 //Необходимо добавить тип контроллера для настройки режима работы АЦП
 #ifndef MEGA_ADC_H
 #define MEGA_ADC_H
-#define __AVR_ATmega128__
+//#define __AVR_ATmega128__
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 class MegaADC {
 public:
 enum ADCReference {    
-    AREF = 0,                                //источник опорного напряжения подключеный к AREF
-    AVСС = (1 << REFS0),                    //источник опорного напряжения равный питанию контроллера
+    Aref = 0,                                //источник опорного напряжения подключеный к AREF
+    AVcc = (1 << REFS0),                    //источник опорного напряжения равный питанию контроллера
     //Internal = (1 << REFS1),             //Резерв
     InternalVCC = (1 << REFS0) | (1 << REFS1) //Внутренний источник опорного напряжения 2.56В
 };

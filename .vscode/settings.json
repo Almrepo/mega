@@ -10,7 +10,7 @@
         "/usr/lib/avr/include",
         "/usr/lib/avr/include/avr"
     ],
-    "AVR.device.type": "atmega128a",
+    "AVR.device.type": "atmega128",
     "AVR.device.frequency": 8000000,
     "AVR.programmer.type": "jtag2",
     "AVR.programmer.port": "/dev/ttyUSB0",
