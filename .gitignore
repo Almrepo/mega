@@ -1,3 +1,6 @@
-build/output.elf
+build/
 build/obj/home/alm/avr-code/mega/src/main.cpp.obj
 build/obj/home/alm/avr-code/mega/src/mega_adc.cpp.obj
+.vscode/c_cpp_properties.json
+.vscode/c_cpp_properties.json
+.vscode/settings.json

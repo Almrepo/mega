@@ -3,13 +3,13 @@
         {
             "name": "AVR",
             "intelliSenseMode": "${default}",
-            "compilerPath": "/usr/bin/avr-gcc",
+            "compilerPath": "/usr/bin/avr-g++",
             "cStandard": "${default}",
             "cppStandard": "${default}",
             "includePath": [
-                "/home/alm/avr-code/mega/inc/**",
                 "/usr/lib/avr/include/**",
-                "/usr/lib/avr/include/avr/**"
+                "/usr/lib/avr/include/avr/**",
+                "/home/alm/work/avr/code/mega/inc/**"
             ],
             "compilerArgs": [
                 "-g",
